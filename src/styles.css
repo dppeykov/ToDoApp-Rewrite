@@ -1,4 +1,6 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css?family=Ubuntu&display=swap");
+
+body {
+  background-color: #f8ecc2;
+  font-family: "Ubuntu", sans-serif;
 }
