@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import Header from "../Header/Header";
 import Counters from "../Counters/Counters";
+import Alert from "../Alert/Alert";
 import ToDoInputFiled from "../ToDoInputField/ToDoInputField";
-import AllDone from "../AllDone/AllDone";
+import AllDoneInfoText from "../AllDone/AllDone";
 
 export default class App extends Component {
   constructor() {
@@ -10,7 +11,6 @@ export default class App extends Component {
 
     this.state = {
       toDoItems: [],
-      itemsDone: [],
       userName: "",
       newTextValue: "",
       noInputButClicked: false
@@ -22,15 +22,17 @@ export default class App extends Component {
   savingNewTasksText = e => this.setState({ newTextValue: e.target.value });
 
   addingMoreTasksHandler = e => {
-    if (this.state.newTextValue === "") {
+    if (!this.state.newTextValue) {
       this.setState({ noInputButClicked: true });
     } else {
-      let newItem = {
-        action: this.state.newTextValue,
-        id: Date.now().toString()
-      };
       this.setState({
-        todoItems: [...this.state.todoItems, newItem],
+        toDoItems: [
+          ...this.state.toDoItems,
+          {
+            id: new Date().valueOf(),
+            action: this.state.newTextValue
+          }
+        ],
         newTextValue: "",
         noInputButClicked: false
       });
@@ -38,26 +40,23 @@ export default class App extends Component {
   };
 
   render() {
-    let {
-      toDoItems,
-      itemsDone,
-      userName,
-      newTextValue,
-      noInputButClicked
-    } = this.state;
+    let { toDoItems, userName, newTextValue, noInputButClicked } = this.state;
+
+    let NumberOfItemsLeft = toDoItems.filter(item => item.done === true).length;
 
     return (
       <div>
         <Header userName={userName} changingUserName={this.changeNameHandler} />
-        <Counters itemsLeft={toDoItems.length} itemsDone={itemsDone.length} />
+        <Counters itemsLeft={toDoItems.length} itemsDone={NumberOfItemsLeft} />
         <ToDoInputFiled
           savingTheText={this.savingNewTasksText}
           currentText={newTextValue}
           addingNewItem={this.addingMoreTasksHandler}
         />
+        <Alert empty={noInputButClicked} />
         {toDoItems.length === 0 ? (
           <div>
-            <AllDone />
+            <AllDoneInfoText />
             <h1>HERE WILL BE THE DONE</h1>
           </div>
         ) : (

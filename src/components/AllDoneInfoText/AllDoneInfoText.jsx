@@ -1,6 +1,6 @@
 import React from "react";
 
-const AllDone = () => (
+const AllDoneInfoText = () => (
   <div className="container">
     <div
       className="alert alert-success d-flex flex-column text-center mt-4"
@@ -23,4 +23,4 @@ const AllDone = () => (
   </div>
 );
 
-export default AllDone;
+export default AllDoneInfoText;
